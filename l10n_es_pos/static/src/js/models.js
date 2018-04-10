@@ -1,34 +1,12 @@
-/****************************************************************************
- *
- *    OpenERP, Open Source Management Solution
- *    Copyright (C) 2016 Aselcis Consulting (http://www.aselcis.com). All Rights Reserved
- *    Copyright (C) 2016 David Gómez Quilón (http://www.aselcis.com). All Rights Reserved
- *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU Affero General Public License as
- *    published by the Free Software Foundation, either version 3 of the
- *    License, or (at your option) any later version.
- *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU Affero General Public License for more details.
- *
- *    You should have received a copy of the GNU Affero General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- ******************************************************************************/
+/* Copyright 2016 David Gómez Quilón <david.gomez@aselcis.com>
+   License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+*/
 
 odoo.define('l10n_es_pos.models', function (require) {
     "use strict";
 
-    var ajax = require('web.ajax');
-    var core = require('web.core');
     var models = require('point_of_sale.models');
-    var Model = require('web.DataModel');
-    var QWeb = core.qweb;
-    var _t = core._t;
-    var exports = {};
+
 
     var pos_super = models.PosModel.prototype;
     models.PosModel = models.PosModel.extend({
@@ -58,7 +36,6 @@ odoo.define('l10n_es_pos.models', function (require) {
                 }
                 result += number;
             }
-
             return result;
         },
         push_simple_invoice: function (order) {
@@ -69,14 +46,12 @@ odoo.define('l10n_es_pos.models', function (require) {
         },
         _flush_orders: function (orders, options) {
             var self = this;
-
             // Save pushed orders numbers
             _.each(orders, function (order) {
                 if (!order.data.to_invoice) {
                     self.push_simple_invoice(order);
                 }
             });
-
             return pos_super._flush_orders.apply(this, arguments);
         }
     });
@@ -103,5 +78,4 @@ odoo.define('l10n_es_pos.models', function (require) {
 
     models.load_fields('res.company', ['street', 'city', 'state_id', 'zip']);
 
-    return exports;
 });

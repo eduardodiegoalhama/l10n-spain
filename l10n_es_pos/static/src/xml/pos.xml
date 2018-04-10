@@ -3,7 +3,8 @@
 
     <t t-extend="PosTicket">
         <t t-jquery="div.pos-center-align:first" t-operation="after">
-            <div class="pos-center-align" t-if="!order.is_to_invoice()">
+            <div class="pos-center-align"
+                 t-if="widget.pos.config.iface_simplified_invoice and !order.is_to_invoice()">
                   Simplified invoice: <t t-esc="order.simplified_invoice"/>
             </div>
         </t>
@@ -39,11 +40,11 @@
 
     <t t-extend="XmlReceipt">
         <t t-jquery="[t-if='!receipt.company.logo']" t-operation="after">
+            <t t-if="widget.pos.config.iface_simplified_invoice and !order.is_to_invoice()">
             <br/>
-            <t t-if="!order.is_to_invoice()">
                 Simplified invoice <t t-esc="order.simplified_invoice"/>
-            </t>
             <br/>
+            </t>
         </t>
         <t t-jquery="[t-if='receipt.header']" t-operation="after">
              <t t-if="order.get_client()">
